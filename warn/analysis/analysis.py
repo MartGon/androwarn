@@ -135,7 +135,7 @@ def perform_analysis_data(apk_file, a, d, x, online_lookup) :
     data.append(
                 { 'application_information' :
                     [
-                        ( 'application_name',                       [grab_application_name(a)] ),
+                        ( 'application_name',                       "[grab_application_name(a)]" ),
                         ( 'application_version',                    [grab_androidversion_name(a)] ),
                         ( 'package_name',                           [app_package_name] ),
                         ( 'description',                             app_description )
