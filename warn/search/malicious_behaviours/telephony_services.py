@@ -121,7 +121,7 @@ def detect_Telephony_Phone_Call_abuse(x) :
         formatted_str.append('This application makes phone calls')
         log_result_path_information(detectors)
 
-    if len(formatted_str) > 1:
+    if len(formatted_str) > 0:
         formatted_str = ["PhoneCall"]
         
     return sorted(formatted_str)
