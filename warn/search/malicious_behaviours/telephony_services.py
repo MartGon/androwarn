@@ -54,7 +54,7 @@ def detect_Telephony_SMS_abuse(x) :
                 formatted_str.append(local_formatted_str)
     
     # Mod
-    if len(formatted_str) > 1:
+    if len(formatted_str) > 0:
         formatted_str = [method_name]
 
     return sorted(formatted_str)
@@ -99,7 +99,7 @@ def detect_SMS_interception(a,x) :
     except Exception as e:
         log.error("detect_SMS_interception(): %s" % e)  
     
-    if len(formatted_str) > 1:
+    if len(formatted_str) > 0:
         formatted_str = ["SMSInterception"]
 
     return sorted(formatted_str)
