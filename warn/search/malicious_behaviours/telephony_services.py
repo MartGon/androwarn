@@ -39,6 +39,7 @@ def detect_Telephony_SMS_abuse(x) :
         
         @rtype : a list of formatted strings
     """
+    method_name = "sendTextMessage"
     formatted_str = []
     
     structural_analysis_results = structural_analysis_search_method("Landroid/telephony/SmsManager","sendTextMessage", x)
@@ -52,6 +53,10 @@ def detect_Telephony_SMS_abuse(x) :
             if not(local_formatted_str in formatted_str) :
                 formatted_str.append(local_formatted_str)
     
+    # Mod
+    if len(formatted_str) > 1:
+        formatted_str = [method_name]
+
     return sorted(formatted_str)
 
 def detect_SMS_interception(a,x) :
@@ -94,6 +99,9 @@ def detect_SMS_interception(a,x) :
     except Exception as e:
         log.error("detect_SMS_interception(): %s" % e)  
     
+    if len(formatted_str) > 1:
+        formatted_str = ["SMSInterception"]
+
     return sorted(formatted_str)
 
 def detect_Telephony_Phone_Call_abuse(x) :
@@ -112,6 +120,9 @@ def detect_Telephony_Phone_Call_abuse(x) :
     if detectors:
         formatted_str.append('This application makes phone calls')
         log_result_path_information(detectors)
+
+    if len(formatted_str) > 1:
+        formatted_str = ["PhoneCall"]
         
     return sorted(formatted_str)
 

@@ -35,6 +35,7 @@ def detect_Library_loading(x) :
         
         @rtype : a list of formatted strings
     """
+    method_name = "loadLibrary"
     formatted_str = []
 
     structural_analysis_results = structural_analysis_search_method("Ljava/lang/System", "loadLibrary", x)
@@ -50,6 +51,10 @@ def detect_Library_loading(x) :
         if not(local_formatted_str in formatted_str) :
             formatted_str.append(local_formatted_str)
     
+    # Mod
+    if len(formatted_str) > 0:
+        formatted_str = [method_name]
+
     return sorted(formatted_str)
 
 
@@ -59,9 +64,10 @@ def detect_UNIX_command_execution(x) :
         
         @rtype : a list of formatted strings
     """
+    method_name = "exec"
     formatted_str = []
     
-    structural_analysis_results = structural_analysis_search_method("Ljava/lang/Runtime", "exec", x)
+    structural_analysis_results = structural_analysis_search_method("Ljava/lang/Runtime", method_name, x)
     
     for registers in data_flow_analysis(structural_analysis_results, x):
         local_formatted_str = "This application executes a UNIX command" 
@@ -74,6 +80,9 @@ def detect_UNIX_command_execution(x) :
         if not(local_formatted_str in formatted_str) :
             formatted_str.append(local_formatted_str)
 
+    # Mod
+    if len(formatted_str) > 0:
+        formatted_str = [method_name]
         
     return sorted(formatted_str)
 

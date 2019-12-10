@@ -46,8 +46,12 @@ def detect_Socket_use(x) :
             
             local_formatted_str = "This application opens a Socket and connects it to the remote address '%s' on the '%s' port " % (remote_address, remote_port)
             if not(local_formatted_str in formatted_str) :
-                formatted_str.append(local_formatted_str)       
+                formatted_str.append(local_formatted_str)      
     
+    # Mod
+    if len(formatted_str) > 0:
+        formatted_str = ["SocketConnect"]
+
     return sorted(formatted_str)
 
 def gather_suspicious_connection_establishment(x) : 

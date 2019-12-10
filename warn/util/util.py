@@ -120,8 +120,8 @@ def structural_analysis_search_method_bulk(class_name, method_listing, x):
     
     for method_name, description in method_listing:
         if list(structural_analysis_search_method(class_name, method_name, x)):
-            if description not in formatted_str:
-                formatted_str.append(description)
+            if method_name not in formatted_str:
+                formatted_str.append(method_name)
     
     return sorted(formatted_str)
 

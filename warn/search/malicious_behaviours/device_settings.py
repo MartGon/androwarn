@@ -51,6 +51,10 @@ def detect_log(x) :
                 if not(local_formatted_str in formatted_str) :
                     formatted_str.append(local_formatted_str)
     
+    # Mod
+    if len(formatted_str) > 0:
+        formatted_str = ["Log"]
+
     return sorted(formatted_str)
 
 def detect_get_package_info(x) :
@@ -59,9 +63,10 @@ def detect_get_package_info(x) :
         
         @rtype : a list of formatted strings
     """
+    method_name = "getPackageInfo"
     formatted_str = []
     
-    structural_analysis_results = structural_analysis_search_method("Landroid/content/pm/PackageManager","getPackageInfo", x)
+    structural_analysis_results = structural_analysis_search_method("Landroid/content/pm/PackageManager", method_name, x)
     for registers in data_flow_analysis(structural_analysis_results, x):
         if len(registers) >= 2 :
             package_name = get_register_value(1, registers)
@@ -74,6 +79,10 @@ def detect_get_package_info(x) :
             if not(local_formatted_str in formatted_str) :
                 formatted_str.append(local_formatted_str)
     
+    # Mod
+    if len(formatted_str) > 0:
+        formatted_str = [method_name]
+
     return sorted(formatted_str)
     
 def detect_package_manager_calls(x) :

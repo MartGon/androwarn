@@ -35,9 +35,10 @@ def detect_Location_lookup(x) :
         
         @rtype : a list of formatted strings
     """
+    method_name = "getProviders"
     formatted_str = []
     
-    structural_analysis_results = structural_analysis_search_method("Landroid/location/LocationManager","getProviders", x)
+    structural_analysis_results = structural_analysis_search_method("Landroid/location/LocationManager", method_name, x)
     
     for registers in data_flow_analysis(structural_analysis_results, x):
         local_formatted_str = "This application reads location information from all available providers (WiFi, GPS etc.)" 
@@ -45,6 +46,10 @@ def detect_Location_lookup(x) :
         # we want only one occurence
         if not(local_formatted_str in formatted_str) :
             formatted_str.append(local_formatted_str)
+
+    # Mod
+    if len(formatted_str) > 0:
+        formatted_str = [method_name]
         
     return sorted(formatted_str)
 

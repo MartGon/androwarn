@@ -64,6 +64,9 @@ def detect_WiFi_Credentials_lookup(x) :
         if not(local_formatted_str in formatted_str) :
             formatted_str.append(local_formatted_str)
 
+    # Mod
+    if len(formatted_str) > 0:
+        formatted_str = ["WifiConfigToString"]
         
     return sorted(formatted_str)
 

@@ -37,9 +37,10 @@ def detect_MediaRecorder_Voice_record(x) :
         
         @rtype : a list of formatted strings
     """ 
+    method_name = "setAudioSource"
     formatted_str = []
     
-    structural_analysis_results = structural_analysis_search_method("Landroid/media/MediaRecorder","setAudioSource", x)
+    structural_analysis_results = structural_analysis_search_method("Landroid/media/MediaRecorder", method_name, x)
     
     for registers in data_flow_analysis(structural_analysis_results, x):
         if registers:
@@ -53,7 +54,11 @@ def detect_MediaRecorder_Voice_record(x) :
             
             if not(local_formatted_str in formatted_str) :
                     formatted_str.append(local_formatted_str)
-                
+    
+    # Mod
+    if len(formatted_str) > 0:
+        formatted_str = [method_name]
+
     return sorted(formatted_str)
 
 # -- Video Record -- #
@@ -63,9 +68,10 @@ def detect_MediaRecorder_Video_capture(x) :
         
         @rtype : a list of formatted strings
     """ 
+    method_name = "setVideoSource"
     formatted_str = []
     
-    structural_analysis_results = structural_analysis_search_method("Landroid/media/MediaRecorder","setVideoSource", x)
+    structural_analysis_results = structural_analysis_search_method("Landroid/media/MediaRecorder", method_name, x)
     
     for registers in data_flow_analysis(structural_analysis_results, x):
         if registers:
@@ -81,6 +87,10 @@ def detect_MediaRecorder_Video_capture(x) :
             
             if not(local_formatted_str in formatted_str) :
                     formatted_str.append(local_formatted_str)
+
+    # Mod
+    if len(formatted_str) > 0:
+        formatted_str = [method_name]
 
     return sorted(formatted_str)
 
