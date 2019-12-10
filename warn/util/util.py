@@ -129,8 +129,8 @@ def structural_analysis_search_string_bulk(string_listing, x):
     formatted_str = []
     for string_name, description in string_listing:
         if structural_analysis_search_string(string_name, x):
-            if description not in formatted_str:
-                formatted_str.append(description)
+            if string_name not in formatted_str:
+                formatted_str.append(string_name)
             
     return sorted(formatted_str)
     
