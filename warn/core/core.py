@@ -410,7 +410,7 @@ def data_flow_analysis(results, x) :
         
         for parent_class, parent_method, calling_offset in found_calls:
             registers = backtrace_registers_before_call(x, parent_method, calling_offset)
-    
+
             class_str   = "Class '%s'" % parent_class.orig_class.get_name()
             method_str  = "Method '%s'" % parent_method.get_name()
             regs_str    = "Register state before call %s" %  registers

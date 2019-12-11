@@ -98,6 +98,9 @@ def get_parent_child_grandchild(tree):
                 yield parent, child, grandchild
 
 # Single structural analysis
+def structural_analysis_search_class(class_name, x):
+    return x.find_classes(name = class_name)
+
 def structural_analysis_search_method(class_name, method_name, x):
     return x.find_methods(classname=class_name, methodname=method_name)
 

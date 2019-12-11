@@ -38,22 +38,18 @@ def detect_Library_loading(x) :
     method_name = "loadLibrary"
     formatted_str = []
 
-    structural_analysis_results = structural_analysis_search_method("Ljava/lang/System", "loadLibrary", x)
+    structural_analysis_results = structural_analysis_search_method("Ljava/lang/System", method_name, x)
     
     for registers in data_flow_analysis(structural_analysis_results, x):
         local_formatted_str = "This application loads a native library"
         
         # If we're lucky enough to directly have the library's name
         if len(registers) == 1:
-            local_formatted_str = "%s: '%s'" % (local_formatted_str, get_register_value(0, registers))
-        
+            local_formatted_str = get_register_value(0, registers)
+
         # we want only one occurence
         if not(local_formatted_str in formatted_str) :
             formatted_str.append(local_formatted_str)
-    
-    # Mod
-    if len(formatted_str) > 0:
-        formatted_str = [method_name]
 
     return sorted(formatted_str)
 
@@ -86,6 +82,45 @@ def detect_UNIX_command_execution(x) :
         
     return sorted(formatted_str)
 
+def detect_reflection(x):
+
+    method_name = "invoke"
+    dex_class_name = convert_canonical_to_dex("java.lang.reflect.Method")
+
+    structural_analysis_results = structural_analysis_search_method(dex_class_name, method_name, x)
+
+    formatted_str = []
+    for registers in data_flow_analysis(structural_analysis_results, x):
+        local_formatted_str = "Reflection"
+
+        #print(len(registers))
+        if len(registers) >= 2 :
+            local_formatted_str = "%s containing this argument: '%s' '%s'" % (local_formatted_str, get_register_value(1, registers), get_register_value(2, registers))
+
+        # we want only one occurence
+        if not(local_formatted_str in formatted_str) :
+            formatted_str.append(local_formatted_str)
+
+    if len(formatted_str) > 0:
+        formatted_str = ["Reflection"]
+
+    return sorted(formatted_str)
+
+def detect_cryptography(x):
+
+    dex_class_name = convert_canonical_to_dex("javax.crypto")
+
+    structural_analysis_results = structural_analysis_search_class(dex_class_name, x)
+
+    formatted_str = []
+    for c in structural_analysis_results:
+        local_formatted_str = "Cryptography"
+
+        if not(local_formatted_str in formatted_str) :
+            formatted_str.append(local_formatted_str)
+
+    return sorted(formatted_str)
+
 def gather_code_execution(x) :
     """
         @param x : a Analysis instance
@@ -94,7 +129,16 @@ def gather_code_execution(x) :
     """
     result = []
     
-    result.extend( detect_Library_loading(x) )
     result.extend( detect_UNIX_command_execution(x) )
+    result.extend( detect_reflection(x) )
+    result.extend( detect_cryptography(x) )
         
+    return result
+
+def gather_loaded_libraries(x):
+
+    result = []
+
+    result.extend( detect_Library_loading(x) )
+
     return result

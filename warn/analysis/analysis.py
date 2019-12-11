@@ -154,7 +154,8 @@ def perform_analysis_data(apk_file, a, d, x, online_lookup) :
                         'audio_video_eavesdropping':               gather_audio_video_eavesdropping(x),
                         'suspicious_connection_establishment':     gather_suspicious_connection_establishment(x),
                         'PIM_data_leakage':                        gather_PIM_data_leakage(x),
-                        'code_execution':                          gather_code_execution(x)
+                        'code_execution':                          gather_code_execution(x),
+                        'loaded_libraries':                        gather_loaded_libraries(x)
                     },
                 }
     )
