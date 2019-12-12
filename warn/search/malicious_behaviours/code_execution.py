@@ -108,9 +108,9 @@ def detect_reflection(x):
 
 def detect_cryptography(x):
 
-    dex_class_name = convert_canonical_to_dex("javax.crypto")
+    dex_class_name = "Ljavax/crypto/.*"
 
-    structural_analysis_results = structural_analysis_search_class(dex_class_name, x)
+    structural_analysis_results = structural_analysis_search_class(dex_class_name, x) 
 
     formatted_str = []
     for c in structural_analysis_results:
