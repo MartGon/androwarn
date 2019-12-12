@@ -35,24 +35,8 @@ def detect_Library_loading(x) :
         
         @rtype : a list of formatted strings
     """
-    method_name = "loadLibrary"
     formatted_str = []
-
-    structural_analysis_results = structural_analysis_search_method("Ljava/lang/System", method_name, x)
-    
-    for registers in data_flow_analysis(structural_analysis_results, x):
-        local_formatted_str = "This application loads a native library"
-        
-        # If we're lucky enough to directly have the library's name
-        if len(registers) == 1:
-            local_formatted_str = get_register_value(0, registers)
-
-        # we want only one occurence
-        if not(local_formatted_str in formatted_str) :
-            formatted_str.append(local_formatted_str)
-
-
-    if formatted_str > 0:
+    if len(gather_loaded_libraries(x)) > 0:
         formatted_str = [method_name]
 
     return sorted(formatted_str)
@@ -135,13 +119,24 @@ def gather_code_execution(x) :
     result.extend( detect_UNIX_command_execution(x) )
     result.extend( detect_reflection(x) )
     result.extend( detect_cryptography(x) )
+    result.extend( detect_Library_loading(x) )
         
     return result
 
 def gather_loaded_libraries(x):
 
-    result = []
+    results = []
 
-    result.extend( detect_Library_loading(x) )
+    method_name = "loadLibrary"
+    structural_analysis_results = structural_analysis_search_method("Ljava/lang/System", method_name, x)
+    
+    for registers in data_flow_analysis(structural_analysis_results, x):        
+        # If we're lucky enough to directly have the library's name
+        if len(registers) == 1:
+            local_formatted_str = get_register_value(0, registers)
 
-    return result
+            # we want only one occurence
+            if not(local_formatted_str in results) :
+                results.append(local_formatted_str)
+
+    return results
