@@ -51,8 +51,11 @@ def detect_Library_loading(x) :
         if not(local_formatted_str in formatted_str) :
             formatted_str.append(local_formatted_str)
 
-    return sorted(formatted_str)
 
+    if formatted_str > 0:
+        formatted_str = [method_name]
+
+    return sorted(formatted_str)
 
 def detect_UNIX_command_execution(x) :
     """
