@@ -37,7 +37,7 @@ def detect_Library_loading(x) :
     """
     formatted_str = []
     if len(gather_loaded_libraries(x)) > 0:
-        formatted_str = [method_name]
+        formatted_str = ["LoadLibrary"]
 
     return sorted(formatted_str)
 
